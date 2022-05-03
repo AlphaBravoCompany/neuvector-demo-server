@@ -12,9 +12,9 @@ Website: https://neuvector.com/
 
 ## Learn more about Neuvector
 
-Introducing Neuvector: https://www.youtube.com/watch?v=_PHDXvygJtU
-Neuvector 101 (Fall 2021): https://www.youtube.com/watch?v=9ihaBr_QGzQ
-Introduction to Kubernetes: Security & NeuVector: https://www.crowdcast.io/e/intro_to_k8s_SecNeu_05022022/1
+- Introducing Neuvector: https://www.youtube.com/watch?v=_PHDXvygJtU
+- Neuvector 101 (Fall 2021): https://www.youtube.com/watch?v=9ihaBr_QGzQ
+- Introduction to Kubernetes: Security & NeuVector: https://www.crowdcast.io/e/intro_to_k8s_SecNeu_05022022/1
 
 ## Intended usage of this script
 
