@@ -22,7 +22,7 @@ This script is for demo purposes only. It deploys a bare minimum, single node K3
 
 ## Prerequisites
 - Ubuntu 20.04+ Server
-- Minimum of 2vCPU and 4GB of RAM
+- Minimum of 4vCPU and 4GB of RAM
 - DNS or Hosts file entry pointing to server IP
 
 ## Installed as part of script
