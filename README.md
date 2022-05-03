@@ -1,6 +1,6 @@
 # Neuvector Demo Server
 
-## About Neuvector 
+## About Neuvector (now part of SUSE)
 
 NeuVector Full Lifecycle Container Security Platform delivers the only cloud-native security with uncompromising end-to-end protection from DevOps vulnerability protection to automated run-time security, and featuring a true Layer 7 container firewall.
 
@@ -9,6 +9,12 @@ A viewable version of docs can be seen at https://open-docs.neuvector.com
 Chart: https://neuvector.github.io/neuvector-helm/
 Repo: https://github.com/neuvector/neuvector-helm
 Website: https://neuvector.com/
+
+## Learn more about Neuvector
+
+Introducing Neuvector: https://www.youtube.com/watch?v=_PHDXvygJtU
+Neuvector 101 (Fall 2021): https://www.youtube.com/watch?v=9ihaBr_QGzQ
+Introduction to Kubernetes: Security & NeuVector: https://www.crowdcast.io/e/intro_to_k8s_SecNeu_05022022/1
 
 ## Intended usage of this script
 
