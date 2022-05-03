@@ -38,7 +38,8 @@ This script is for demo purposes only. It deploys a bare minimum, single node K3
 
 1. `git clone https://github.com/AlphaBravoCompany/neuvector-demo-server.git`
 2. `cd neuvector-demo-server`
-3. `./install-neuvector.sh subdomain.yourdomain.tld`
+3. `chmod +x install-neuvector.sh`
+4. `./install-neuvector.sh subdomain.yourdomain.tld`
 
 # Uninstall
 
