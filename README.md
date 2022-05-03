@@ -37,7 +37,7 @@ This script is for demo purposes only. It deploys a bare minimum, single node K3
 ## Full Server Setup with Neuvector Helm Chart
 
 1. `git clone https://github.com/AlphaBravoCompany/neuvector-demo-server.git`
-2. `cd neuvector-demo`
+2. `cd neuvector-demo-server`
 3. `./install-neuvector.sh subdomain.yourdomain.tld`
 
 # Uninstall
