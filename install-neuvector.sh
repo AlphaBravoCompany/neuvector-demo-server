@@ -19,92 +19,97 @@ if ! grep -q 'Ubuntu' /etc/issue
 fi
 
 ## Update OS
-sudo apt update && sudo apt upgrade -y
+echo "Updating OS packages..."
+sudo apt update && sudo apt upgrade -y > /dev/null 2>&1
 
 ## Install Prereqs
+echo "Installing Prereqs..."
 sudo apt-get update && sudo apt-get install -y \
 apt-transport-https ca-certificates curl gnupg lsb-release \
-software-properties-common haveged bash-completion
+software-properties-common haveged bash-completion  > /dev/null 2>&1
 
 ## Install Helm
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash
+echo "Installing Helm..."
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash  > /dev/null 2>&1
 
 ## Install K3s
-sudo curl -sfL https://get.k3s.io | sh -
-export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+echo "Installing K3s..."
+sudo curl -sfL https://get.k3s.io | sh -  > /dev/null 2>&1
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml  > /dev/null 2>&1
 
 ## Wait for K3s to come online
-echo "Waiting for 60 seconds while K3s comes online...."
-sleep 60
+echo "Waiting for K3s to come online...."
+until [ $(kubectl get nodes|grep Ready | wc -l) = 1 ]; do echo -n "." ; sleep 2; done  > /dev/null 2>&1
 
 ## Install Longhorn
-helm repo add longhorn https://charts.longhorn.io
-helm repo update
-helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace
+echo "Deploying Longhorn on K3s..."
+helm repo add longhorn https://charts.longhorn.io > /dev/null 2>&1
+helm repo update > /dev/null 2>&1
+helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace > /dev/null 2>&1
 
 ## Wait for Longhorn
-echo "Waiting for 30 seconds while Longhorn comes online...."
-sleep 30
+echo "Waiting for Longhorn deployment to finish..."
+until [ $(kubectl -n longhorn-system rollout status deploy/longhorn-ui|grep successfully | wc -l) = 1 ]; do echo -n "." ; sleep 2; done > /dev/null 2>&1
 
 ## Install Neuvector
-helm repo add neuvector https://neuvector.github.io/neuvector-helm/
-helm repo update
-kubectl create namespace neuvector
-helm install neuvector --namespace neuvector neuvector/core -f https://gist.githubusercontent.com/mjtechguy/cc247abf0e7ef0ede2d9ec1abb8ccd9b/raw/dc112455667efd577f952ff129892f710899d2a8/values.yaml
+echo "Deploying Neuvector on K3s..."
+helm repo add neuvector https://neuvector.github.io/neuvector-helm/ > /dev/null 2>&1
+helm repo update > /dev/null 2>&1
+kubectl create namespace neuvector > /dev/null 2>&1
+helm install neuvector --namespace neuvector neuvector/core -f https://gist.githubusercontent.com/mjtechguy/cc247abf0e7ef0ede2d9ec1abb8ccd9b/raw/dc112455667efd577f952ff129892f710899d2a8/values.yaml > /dev/null 2>&1
 
 ## Wait for Neuvector
-echo "Waiting for 60 seconds while Neuvector comes online...."
-sleep 30
+echo "Waiting for Neuvector to come online..."
+until [ $(kubectl -n neuvector rollout status deploy/neuvector-manager-pod|grep successfully | wc -l) = 1 ]; do echo -n "." ; sleep 2; done > /dev/null 2>&1
+until [ $(kubectl -n neuvector rollout status deploy/neuvector-scanner-pod|grep successfully | wc -l) = 1 ]; do echo -n "." ; sleep 2; done > /dev/null 2>&1
+until [ $(kubectl -n neuvector rollout status deploy/neuvector-controller-pod|grep successfully | wc -l) = 1 ]; do echo -n "." ; sleep 2; done > /dev/null 2>&1
 
 ## Print Neuvector WebUI Link (Nodeport)
-NODE_PORT=$(kubectl get --namespace neuvector -o jsonpath="{.spec.ports[0].nodePort}" services neuvector-service-webui)
-NODE_IP=$(kubectl get nodes --namespace neuvector -o jsonpath="{.items[0].status.addresses[0].address}")
-export NEUVECTORUI=https://$NODE_IP:$NODE_PORT
-echo https://$NODE_IP:$NODE_PORT 
+NODE_PORT=$(kubectl get --namespace neuvector -o jsonpath="{.spec.ports[0].nodePort}" services neuvector-service-webui) > /dev/null 2>&1
+NODE_IP=$(kubectl get nodes --namespace neuvector -o jsonpath="{.items[0].status.addresses[0].address}") > /dev/null 2>&1
+export NEUVECTORUI=https://$NODE_IP:$NODE_PORT > /dev/null 2>&1
 
 ## Install Cert-Manager
 # Install the CustomResourceDefinition resources separately
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.0/cert-manager.crds.yaml
+echo "Deploying cert-manager on K3s..."
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.0/cert-manager.crds.yaml > /dev/null 2>&1
 
 # Add the Jetstack Helm repository
-helm repo add jetstack https://charts.jetstack.io
+helm repo add jetstack https://charts.jetstack.io > /dev/null 2>&1
 
 # Update your local Helm chart repository cache
-helm repo update
+helm repo update > /dev/null 2>&1
 
 # Install the cert-manager Helm chart
 helm install \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
-  --version v1.8.0 \
+  --version v1.8.0  > /dev/null 2>&1
 
 ## Wait for cert-manager
-echo "Waiting for 60 seconds while cert-manager comes online...."
-sleep 60
+echo "Waiting for cert-manager to come online...."
+until [ $(kubectl -n cert-manager rollout status deploy/cert-manager|grep successfully | wc -l) = 1 ]; do echo -n "." ; sleep 2; done > /dev/null 2>&1
 
 ## Install Rancher
-helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
-kubectl create namespace cattle-system
+echo "Deploying Rancher on K3s..."
+helm repo add rancher-stable https://releases.rancher.com/server-charts/stable > /dev/null 2>&1
+kubectl create namespace cattle-system > /dev/null 2>&1
 helm install rancher rancher-stable/rancher \
   --namespace cattle-system \
-  --set hostname=$1
-
-## Wait for Rancher to come online
-echo "Waiting for 60 seconds while Rancher comes online...."
-sleep 60
+  --set hostname=$1 > /dev/null 2>&1
 
 ## Get Rancher Password
 echo "Exporting Rancher UI password..."
-export RANCHERPW=$(kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{ .data.bootstrapPassword|base64decode}}{{ "\n" }}')
-sleep 10
+until [ $(kubectl -n cattle-system rollout status deploy/rancher|grep successfully | wc -l) = 1 ]; do echo -n "." ; sleep 2; done > /dev/null 2>&1
+export RANCHERPW=$(kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{ .data.bootstrapPassword|base64decode}}{{ "\n" }}') > /dev/null 2>&1
 
 ## Print Information
 echo -----------------------------------------------
 
 echo Install is complete. Please use the below information to access your environment.
 
-echo Please update your DNS or Hosts file to point https://$1 to the IP of this server ($NODE_IP).
+echo Please update your DNS or Hosts file to point https://$1 to the IP of this server $NODE_IP.
 
 echo Neuvector UI: $NEUVECTORUI
 
