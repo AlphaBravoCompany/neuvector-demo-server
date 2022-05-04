@@ -32,7 +32,11 @@ software-properties-common haveged bash-completion  > /dev/null 2>&1
 
 ## Install Helm
 echo "Installing Helm..."
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash  > /dev/null 2>&1
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3  > /dev/null 2>&1
+chmod 700 get_helm.sh  > /dev/null 2>&1
+./get_helm.sh  > /dev/null 2>&1
+rm ./get_helm.sh  > /dev/null 2>&1
+
 
 ## Install K3s
 echo "Installing K3s..."
@@ -90,7 +94,7 @@ helm install \
   --version v1.8.0  > /dev/null 2>&1
 
 ## Wait for cert-manager
-echo "Waiting for cert-manager to come online...."
+echo "Waiting for cert-manager deployment to finish..."
 until [ $(kubectl -n cert-manager rollout status deploy/cert-manager|grep successfully | wc -l) = 1 ]; do echo -n "." ; sleep 2; done > /dev/null 2>&1
 
 ## Install Rancher
@@ -101,9 +105,12 @@ helm install rancher rancher-stable/rancher \
   --namespace cattle-system \
   --set hostname=$1 > /dev/null 2>&1
 
+## Wait for Rancher
+echo "Waiting for Rancher UI to come online...."
+until [ $(kubectl -n cattle-system rollout status deploy/rancher|grep successfully | wc -l) = 1 ]; do echo -n "." ; sleep 2; done > /dev/null 2>&1
+
 ## Get Rancher Password
 echo "Exporting Rancher UI password..."
-until [ $(kubectl -n cattle-system rollout status deploy/rancher|grep successfully | wc -l) = 1 ]; do echo -n "." ; sleep 2; done > /dev/null 2>&1
 export RANCHERPW=$(kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{ .data.bootstrapPassword|base64decode}}{{ "\n" }}') > /dev/null 2>&1
 
 ## Print Information
