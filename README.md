@@ -46,6 +46,12 @@ This script is for demo purposes only. It deploys a bare minimum, single node K3
 
 1. `/usr/local/bin/k3s-uninstall.sh` (removes K3s, Rancher, Longhorn and Neuvector)
 
+## Special Thanks
+
+Thanks to Andy Clemenko for his expertise and repos for providing the foundation for this script.
+
+- Andy's Github: https://github.com/clemenko/sr_tools
+
 ## About Alphabravo
 
 **AlphaBravo** provides products, services, and training for Kubernetes, Cloud, and DevSecOps. We are a Rancher and SUSE partner.
