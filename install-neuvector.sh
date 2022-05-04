@@ -1,6 +1,8 @@
 #!/bin/bash
 
 set -e
+G="\e[32m"
+E="\e[0m"
 
 if [ -z "$1" ]
   then
@@ -116,12 +118,12 @@ export RANCHERPW=$(kubectl get secret --namespace cattle-system bootstrap-secret
 ## Print Server Information and Links
 touch ./server-details.txt
 echo -----------------------------------------------
-echo Install is complete. Please use the below information to access your environment. | tee ./server-details.txt
-echo Please update your DNS or Hosts file to point https://$1 to the IP of this server $NODE_IP. | tee -a ./server-details.txt
-echo Neuvector UI: $NEUVECTORUI | tee -a ./server-details.txt
-echo Neuvector Login: admin/admin (please change the default password immediately) | tee -a ./server-details.txt
-echo Rancher UI: https://$1 | tee -a ./server-details.txt
-echo Rancher Password: $RANCHERPW | tee -a ./server-details.txt
-echo Kubeconfig File: /etc/rancher/k3s/k3s.yaml | tee -a ./server-details.txt
+echo -e ${G}Install is complete. Please use the below information to access your environment.${E} | tee ./server-details.txt
+echo -e ${G}Please update your DNS or Hosts file to point https://$1 to the IP of this server $NODE_IP.${E} | tee -a ./server-details.txt
+echo -e ${G}Neuvector UI:${E} $NEUVECTORUI | tee -a ./server-details.txt
+echo -e ${G}Neuvector Login:${E} admin/admin \(please change the default password immediately\) | tee -a ./server-details.txt
+echo -e ${G}Rancher UI:${E} https://$1 | tee -a ./server-details.txt
+echo -e ${G}Rancher Password:${E} $RANCHERPW | tee -a ./server-details.txt
+echo -e ${G}Kubeconfig File:${E} /etc/rancher/k3s/k3s.yaml | tee -a ./server-details.txt
 echo Details above are saved to the file at ./server-details.txt
 echo -----------------------------------------------
