@@ -22,7 +22,7 @@ This script is for demo purposes only. It deploys a bare minimum, single node K3
 
 ## Prerequisites
 - Ubuntu 20.04+ Server
-- Minimum of 2vCPU and 4GB of RAM
+- Minimum of 4vCPU and 4GB of RAM
 - DNS or Hosts file entry pointing to server IP
 
 ## Installed as part of script
@@ -37,8 +37,10 @@ This script is for demo purposes only. It deploys a bare minimum, single node K3
 ## Full Server Setup with Neuvector Helm Chart
 
 1. `git clone https://github.com/AlphaBravoCompany/neuvector-demo-server.git`
-2. `cd neuvector-demo`
-3. `./install-neuvector.sh subdomain.yourdomain.tld`
+2. `cd neuvector-demo-server`
+3. `chmod +x install-neuvector.sh`
+4. `./install-neuvector.sh subdomain.yourdomain.tld`
+5. Install will take approximately 5 minutes and will output links and login information for Rancher and your Neuvector installation.
 
 # Uninstall
 
