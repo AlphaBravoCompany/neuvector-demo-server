@@ -21,7 +21,7 @@ This script is for demo purposes only. It deploys a bare minimum, single node K3
 
 ## Prerequisites
 - Ubuntu 20.04+ Server
-- Minimum of 4vCPU and 4GB of RAM
+- Minimum Recommended 4vCPU and 8GB of RAM (Try Hetzner or DigitalOcean)
 - DNS or Hosts file entry pointing to server IP
 
 ## Installed as part of script
@@ -40,6 +40,7 @@ This script is for demo purposes only. It deploys a bare minimum, single node K3
 3. `chmod +x install-neuvector.sh`
 4. `./install-neuvector.sh subdomain.yourdomain.tld`
 5. Install will take approximately 5 minutes and will output links and login information for Rancher and your Neuvector installation.
+6. Details for accessing Neuvector and Rancher will be printed to the screen once the script completes and saved to `server-details.txt`
 
 # Uninstall
 

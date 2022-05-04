@@ -113,21 +113,15 @@ until [ $(kubectl -n cattle-system rollout status deploy/rancher|grep successful
 echo "Exporting Rancher UI password..."
 export RANCHERPW=$(kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{ .data.bootstrapPassword|base64decode}}{{ "\n" }}') > /dev/null 2>&1
 
-## Print Information
+## Print Server Information and Links
+touch ./server-details.txt
 echo -----------------------------------------------
-
-echo Install is complete. Please use the below information to access your environment.
-
-echo Please update your DNS or Hosts file to point https://$1 to the IP of this server $NODE_IP.
-
-echo Neuvector UI: $NEUVECTORUI
-
-echo Neuvector Login: admin/admin
-
-echo Rancher UI: https://$1
-
-echo Rancher Password: $RANCHERPW
-
-echo Kubeconfig File: /etc/rancher/k3s/k3s.yaml
-
+echo Install is complete. Please use the below information to access your environment. | tee ./server-details.txt
+echo Please update your DNS or Hosts file to point https://$1 to the IP of this server $NODE_IP. | tee -a ./server-details.txt
+echo Neuvector UI: $NEUVECTORUI | tee -a ./server-details.txt
+echo Neuvector Login: admin/admin (please change the default password immediately) | tee -a ./server-details.txt
+echo Rancher UI: https://$1 | tee -a ./server-details.txt
+echo Rancher Password: $RANCHERPW | tee -a ./server-details.txt
+echo Kubeconfig File: /etc/rancher/k3s/k3s.yaml | tee -a ./server-details.txt
+echo Details above are saved to the file at ./server-details.txt
 echo -----------------------------------------------
