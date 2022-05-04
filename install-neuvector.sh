@@ -20,11 +20,13 @@ fi
 
 ## Update OS
 echo "Updating OS packages..."
-sudo apt update && sudo apt upgrade -y > /dev/null 2>&1
+sudo apt update > /dev/null 2>&1
+sudo apt upgrade -y > /dev/null 2>&1
 
 ## Install Prereqs
 echo "Installing Prereqs..."
-sudo apt-get update && sudo apt-get install -y \
+sudo apt-get update > /dev/null 2>&1
+sudo apt-get install -y \
 apt-transport-https ca-certificates curl gnupg lsb-release \
 software-properties-common haveged bash-completion  > /dev/null 2>&1
 
