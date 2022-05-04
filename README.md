@@ -4,11 +4,10 @@
 
 NeuVector Full Lifecycle Container Security Platform delivers the only cloud-native security with uncompromising end-to-end protection from DevOps vulnerability protection to automated run-time security, and featuring a true Layer 7 container firewall.
 
-A viewable version of docs can be seen at https://open-docs.neuvector.com
-
-Chart: https://neuvector.github.io/neuvector-helm/
-Repo: https://github.com/neuvector/neuvector-helm
-Website: https://neuvector.com/
+- Docs: https://open-docs.neuvector.com
+- Chart: https://neuvector.github.io/neuvector-helm/
+- Git Repo: https://github.com/neuvector/neuvector-helm
+- Website: https://neuvector.com/
 
 ## Learn more about Neuvector
 
