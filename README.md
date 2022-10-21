@@ -50,7 +50,7 @@ This script is for demo purposes only. It deploys a bare minimum, single node K3
 
 Thanks to Andy Clemenko for his expertise and repos for providing the foundation for this script.
 
-- Andy's Github: https://github.com/clemenko/sr_tools
+- Andy's Github: [https://github.com/clemenko/sr_tools](https://github.com/clemenko/rke2)
 
 ## About Alphabravo
 
